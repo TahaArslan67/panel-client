@@ -17,6 +17,7 @@ const API_URL = process.env.NODE_ENV === 'production'
   ? 'https://panel-server.vercel.app'
   : 'http://localhost:5001';
 
+console.log('Current environment:', process.env.NODE_ENV);
 console.log('API URL:', API_URL);
 
 // CORS ayarları
@@ -35,34 +36,39 @@ const Login: React.FC = () => {
     setError('');
     
     console.log('Login attempt starting...');
-    console.log('Request URL:', `${API_URL}/api/auth/login`);
+    console.log('Request URL:', API_URL);
     
     try {
       console.log('Sending request with credentials:', { username, withCredentials: true });
       
-      const response = await axios({
-        method: 'post',
-        url: API_URL,
-        data: { username, password },
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        withCredentials: true
-      });
+      const response = await axios.post(API_URL, 
+        { username, password },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          withCredentials: true
+        }
+      );
       
       console.log('Response received:', response.status);
       console.log('Response headers:', response.headers);
       console.log('Response data:', response.data);
       
-      localStorage.setItem('token', response.data.token);
-      window.dispatchEvent(new Event('storage'));
-      
-      console.log('Token saved, navigating to dashboard...');
-      
-      setTimeout(() => {
-        navigate('/dashboard', { replace: true });
-      }, 100);
+      if (response.data && response.data.token) {
+        localStorage.setItem('token', response.data.token);
+        window.dispatchEvent(new Event('storage'));
+        
+        console.log('Token saved, navigating to dashboard...');
+        
+        setTimeout(() => {
+          navigate('/dashboard', { replace: true });
+        }, 100);
+      } else {
+        console.error('No token in response:', response.data);
+        setError('Sunucudan geçersiz yanıt alındı');
+      }
       
     } catch (error: any) {
       console.error('Login error details:', {
@@ -70,7 +76,8 @@ const Login: React.FC = () => {
         status: error.response?.status,
         statusText: error.response?.statusText,
         headers: error.response?.headers,
-        data: error.response?.data
+        data: error.response?.data,
+        config: error.config
       });
       
       if (error.response) {
