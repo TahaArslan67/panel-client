@@ -41,7 +41,7 @@ const Login: React.FC = () => {
     try {
       console.log('Sending request with credentials:', { username, withCredentials: true });
       
-      const response = await axios.post(API_URL, 
+      const response = await axios.post(`${API_URL}/api/auth/login`, 
         { username, password },
         {
           headers: {
