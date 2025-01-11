@@ -14,7 +14,7 @@ import { LockOutlined } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 
 const API_URL = process.env.NODE_ENV === 'production' 
-  ? 'https://panel-server-alpha.vercel.app'
+  ? 'https://panel-server.vercel.app'
   : 'http://localhost:5001';
 
 console.log('API URL:', API_URL);
