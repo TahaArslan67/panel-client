@@ -6,6 +6,9 @@
     "node": "18.x"
   },
   "dependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@babel/plugin-transform-private-property-in-object": "^7.23.4",
+    "@babel/runtime": "^7.24.0",
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.11.0",
@@ -29,7 +32,6 @@
     "web-vitals": "^4.2.4"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@typescript-eslint/eslint-plugin": "^8.19.1",
     "@typescript-eslint/parser": "^8.19.1",
     "cross-env": "^7.0.3",
@@ -37,7 +39,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "npm install --legacy-peer-deps && CI=false DISABLE_ESLINT_PLUGIN=true NODE_ENV=production FAST_REFRESH=false react-scripts build",
+    "build": "npm install --legacy-peer-deps && CI=false DISABLE_ESLINT_PLUGIN=true NODE_ENV=production FAST_REFRESH=false SKIP_PREFLIGHT_CHECK=true react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
