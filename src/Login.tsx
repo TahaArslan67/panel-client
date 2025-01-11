@@ -17,7 +17,8 @@ const API_URL = process.env.NODE_ENV === 'production'
   ? 'https://panel-server-alpha.vercel.app'
   : 'http://localhost:5001';
 
-axios.defaults.withCredentials = true;
+// CORS ayarları
+axios.defaults.withCredentials = false;
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState('');
