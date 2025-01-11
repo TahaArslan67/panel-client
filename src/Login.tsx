@@ -18,7 +18,7 @@ const API_URL = process.env.NODE_ENV === 'production'
   : 'http://localhost:5001';
 
 // CORS ayarları
-axios.defaults.withCredentials = false;
+axios.defaults.withCredentials = true;
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -38,7 +38,8 @@ const Login: React.FC = () => {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
-        }
+        },
+        withCredentials: true
       });
       
       localStorage.setItem('token', response.data.token);
