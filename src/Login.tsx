@@ -33,6 +33,10 @@ const Login: React.FC = () => {
       const response = await axios.post(`${API_URL}/api/auth/login`, {
         username,
         password
+      }, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
       });
       
       localStorage.setItem('token', response.data.token);
