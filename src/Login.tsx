@@ -13,6 +13,8 @@ import {
 import { LockOutlined } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 
+const API_URL = 'https://panel-server-alpha.vercel.app';
+
 const Login: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -24,7 +26,7 @@ const Login: React.FC = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.post('http://localhost:5001/api/auth/login', {
+      const response = await axios.post(`${API_URL}/api/auth/login`, {
         username,
         password
       });
