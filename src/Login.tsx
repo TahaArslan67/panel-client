@@ -13,7 +13,9 @@ import {
 import { LockOutlined } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 
-const API_URL = 'https://panel-server-alpha.vercel.app';
+const API_URL = process.env.NODE_ENV === 'production' 
+  ? 'https://panel-server-alpha.vercel.app'
+  : 'http://localhost:5001';
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState('');
