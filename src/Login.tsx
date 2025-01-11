@@ -31,10 +31,10 @@ const Login: React.FC = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.post(`${API_URL}/api/auth/login`, {
-        username,
-        password
-      }, {
+      const response = await axios({
+        method: 'post',
+        url: `${API_URL}/api/auth/login`,
+        data: { username, password },
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
