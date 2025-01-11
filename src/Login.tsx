@@ -17,8 +17,10 @@ const API_URL = process.env.NODE_ENV === 'production'
   ? 'https://panel-server-alpha.vercel.app'
   : 'http://localhost:5001';
 
+console.log('API URL:', API_URL);
+
 // CORS ayarları
-axios.defaults.withCredentials = false;
+axios.defaults.withCredentials = true;
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -30,27 +32,54 @@ const Login: React.FC = () => {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setError('');
+    
+    console.log('Login attempt starting...');
+    console.log('Request URL:', `${API_URL}/api/auth/login`);
+    
     try {
+      console.log('Sending request with credentials:', { username, withCredentials: true });
+      
       const response = await axios({
         method: 'post',
         url: `${API_URL}/api/auth/login`,
         data: { username, password },
         headers: {
-          'Content-Type': 'application/json'
-        }
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        withCredentials: true
       });
+      
+      console.log('Response received:', response.status);
+      console.log('Response headers:', response.headers);
+      console.log('Response data:', response.data);
       
       localStorage.setItem('token', response.data.token);
       window.dispatchEvent(new Event('storage'));
+      
+      console.log('Token saved, navigating to dashboard...');
       
       setTimeout(() => {
         navigate('/dashboard', { replace: true });
       }, 100);
       
-      console.log('Login successful:', response.data);
-    } catch (error) {
-      console.error('Login error:', error);
-      setError('Geçersiz kullanıcı adı veya şifre');
+    } catch (error: any) {
+      console.error('Login error details:', {
+        message: error.message,
+        status: error.response?.status,
+        statusText: error.response?.statusText,
+        headers: error.response?.headers,
+        data: error.response?.data
+      });
+      
+      if (error.response) {
+        setError(`Sunucu hatası: ${error.response.data?.message || error.response.statusText}`);
+      } else if (error.request) {
+        setError('Sunucuya ulaşılamıyor. Lütfen internet bağlantınızı kontrol edin.');
+      } else {
+        setError(`Bir hata oluştu: ${error.message}`);
+      }
     } finally {
       setLoading(false);
     }
