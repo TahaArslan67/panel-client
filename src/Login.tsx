@@ -42,7 +42,7 @@ const Login: React.FC = () => {
       
       const response = await axios({
         method: 'post',
-        url: `${API_URL}/api/auth/login`,
+        url: `${API_URL}/login`,
         data: { username, password },
         headers: {
           'Content-Type': 'application/json',
