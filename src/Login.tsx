@@ -37,7 +37,8 @@ const Login: React.FC = () => {
         data: { username, password },
         headers: {
           'Content-Type': 'application/json',
-          'Accept': 'application/json'
+          'Accept': 'application/json',
+          'Access-Control-Allow-Origin': 'https://panel-client-sigma.vercel.app'
         },
         withCredentials: true
       });
