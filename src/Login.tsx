@@ -18,7 +18,7 @@ const API_URL = process.env.NODE_ENV === 'production'
   : 'http://localhost:5001';
 
 // CORS ayarları
-axios.defaults.withCredentials = true;
+axios.defaults.withCredentials = false;
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -36,11 +36,8 @@ const Login: React.FC = () => {
         url: `${API_URL}/api/auth/login`,
         data: { username, password },
         headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Access-Control-Allow-Origin': 'https://panel-client-sigma.vercel.app'
-        },
-        withCredentials: true
+          'Content-Type': 'application/json'
+        }
       });
       
       localStorage.setItem('token', response.data.token);
